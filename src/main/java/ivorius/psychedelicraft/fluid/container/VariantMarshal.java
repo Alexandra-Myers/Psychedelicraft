@@ -26,7 +26,7 @@ public final class VariantMarshal {
     public static void bootstrap() {
         FluidStorage.GENERAL_COMBINED_PROVIDER.register(context -> {
             ItemStack stack = context.getItemVariant().toStack();
-            if (stack.get(PSComponents.FLUIDS) != null) {
+            if (stack.contains(PSComponents.FLUIDS)) {
                 // F***k the fabric apis. Use something that actually works
                 return new ItemFluidsStorage(context);
             }
@@ -65,7 +65,7 @@ public final class VariantMarshal {
         public ItemFluids withdraw(int amount) {
             var result = FluidTransferUtils.extract(stack, amount);
             if (result.getRight().isEmpty() && fluids.amount() > 0) {
-                // Fabric's transfer api doesn't support partial withdrawl!!!!
+                // Fabric's transfer api doesn't support partial withdrawal!!!!
                 // We have to simulate it now. F$*#$
                 ItemFluids.Transaction t = new ItemFluids.DirectTransaction(stack, capacity(), fluids);
                 ItemFluids removed = t.withdraw(amount);

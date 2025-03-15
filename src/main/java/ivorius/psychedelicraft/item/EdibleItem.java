@@ -27,7 +27,7 @@ public class EdibleItem extends Item {
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         ItemStack remainder = super.finishUsing(stack, world, user);
 
-        if (stack.get(DataComponentTypes.FOOD) == null && (!(user instanceof PlayerEntity) || ((PlayerEntity)user).isCreative())) {
+        if (!stack.contains(DataComponentTypes.FOOD) && (!(user instanceof PlayerEntity playerUser && playerUser.getAbilities().creativeMode))) {
             remainder.decrement(1);
         }
 

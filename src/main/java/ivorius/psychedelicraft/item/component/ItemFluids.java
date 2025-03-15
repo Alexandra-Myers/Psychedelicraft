@@ -267,11 +267,11 @@ public record ItemFluids(SimpleFluid fluid, int amount, Map<String, Integer> att
 
     public interface Transaction {
         static Transaction begin(ItemStack initialStack) {
-            if (initialStack.get(PSComponents.FLUID_CAPACITY) == null) {
+            if (!initialStack.contains(PSComponents.FLUID_CAPACITY)) {
                 if (FluidTransferUtils.getCapacity(initialStack) == 0) {
                     ItemStack filledStack = RecepticalHandler.get(initialStack).toFilled(initialStack, ItemFluids.of(FluidVariant.of(Fluids.WATER), 1));
                     if (filledStack != initialStack && filledStack.getItem() != initialStack.getItem()) {
-                        if (filledStack.get(PSComponents.FLUID_CAPACITY) != null) {
+                        if (filledStack.contains(PSComponents.FLUID_CAPACITY)) {
                             return new DirectTransaction(initialStack);
                         }
                     }
